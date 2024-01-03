@@ -70,6 +70,7 @@ label {
 .card {
   box-shadow: 0 0 2px gray;
   border-radius: 0 !important;
+  margin: 5px;
 }
 
 .normal-text {

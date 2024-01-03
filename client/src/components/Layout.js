@@ -42,12 +42,12 @@ const Layout = ({ children }) => {
     },
     {
       name: "Users",
-      path: "/users",
+      path: "/admin/users",
       icon: "ri-user-line"
     },
     {
       name: "Doctors",
-      path: "/doctors",
+      path: "/admin/doctors",
       icon: "ri-user-star-fill"
     },
     {
@@ -56,8 +56,25 @@ const Layout = ({ children }) => {
       icon: "ri-user-heart-line"
     },
   ];
+  const doctorMenu = [
+    {
+      name: "Home",
+      path: "/",
+      icon: "ri-home-line"
+    },
+    {
+      name: "Appointments",
+      path: "/appointments",
+      icon: "ri-file-list-line"
+    },
+    {
+      name: "Profile",
+      path: `/doctor/profile/${user?._id}`,
+      icon: "ri-user-heart-line"
+    },
+  ];
 
-  const menuToBeRendered = user?.isAdmin ? adminMenu : userMenu
+  const menuToBeRendered = user?.isAdmin ? adminMenu : user?.isDoctor ? doctorMenu : userMenu;
 
   return (
     <div className='main'>

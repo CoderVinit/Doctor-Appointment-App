@@ -4,10 +4,10 @@ import bcrypt from 'bcryptjs'
 import Jwt from 'jsonwebtoken';
 import authMiddleware from '../middleware/authMiddleware.js'
 import Doctor from '../models/doctorModels.js'
+import AppointmentModel from '../models/appointmentModel.js'
 
 
 const router = express.Router();
-
 
 router.post('/register', async (req, res) => {
 
@@ -17,7 +17,7 @@ router.post('/register', async (req, res) => {
       res.status(200).send({ message: "User Already exist", success: false })
     }
 
-    const password = req.body.password;
+    const password = req.body?.password;
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     req.body.password = hashedPassword;
@@ -32,8 +32,6 @@ router.post('/register', async (req, res) => {
   }
 
 })
-
-
 router.post('/login', async (req, res) => {
 
   try {
@@ -55,7 +53,6 @@ router.post('/login', async (req, res) => {
   }
 
 })
-
 router.post('/get-user-info-by-id', authMiddleware, async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.body.userId });
@@ -74,7 +71,6 @@ router.post('/get-user-info-by-id', authMiddleware, async (req, res) => {
     res.status(404).send({ message: "Error getting user info", success: false, error });
   }
 })
-
 router.post('/apply-doctor-account', authMiddleware, async (req, res) => {
 
   try {
@@ -103,8 +99,6 @@ router.post('/apply-doctor-account', authMiddleware, async (req, res) => {
   }
 
 })
-
-
 router.post('/mark-all-notifications-as-seen', authMiddleware, async (req, res) => {
 
   try {
@@ -141,6 +135,33 @@ router.post('/delete-all-notifications', authMiddleware, async (req, res) => {
     res.status(400).send({ message: "Error while creating user", success: false, error })
   }
 
+})
+router.get("/getAllDoctors", authMiddleware, async (req, res) => {
+  try {
+    const doctor = await Doctor.find({ status: "Approved" });
+    res.status(200).send({ success: true, message: "doctors lits", data: doctor });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({ success: false, message: "Error while fetching the doctors data", error })
+  }
+})
+router.post("/book-appointment", authMiddleware, async (req, res) => {
+  try {
+    req.body.status = "Pending"
+    const newAppointment = new AppointmentModel(req.body);
+    await newAppointment.save();
+    const user = await User.findOne({ _id: req.body.doctorInfo.userId })
+    user.unseenNotification.push({
+      type: 'New Appointment Request',
+      message: `A new appointment from ${req.body.userInfo.name}`,
+      onclickPath: "/user/appointments"
+    })
+    await user.save();
+    res.status(200).send({ success: true, message: "Appointment Request", data: newAppointment })
+  } catch (error) {
+    console.log(error)
+    res.status(400).send({ success: true, message: "error while book appointment", error })
+  }
 })
 
 export default router;

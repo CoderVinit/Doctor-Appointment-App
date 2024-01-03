@@ -16,13 +16,15 @@ const ApplyDoctors = () => {
   const onFinish = async (values) => {
     try {
       dispatch(showLoading());
-      const response = await axios.post("http://localhost:8000/api/user/apply-doctor-account", { ...values, userId: user._id }, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem('token')
-        }
-      });
+      const response = await axios.post("http://localhost:8000/api/user/apply-doctor-account", {
+        ...values, userId: user._id
+      },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem('token')
+          }
+        });
       dispatch(hideLoading());
-      console.log(response);
       if (response.data.success) {
         toast.success(response.data.message);
         navigate("/");
@@ -96,7 +98,7 @@ const ApplyDoctors = () => {
           </Col>
           <Col span={8} xs={24} sm={24} lg={8} className='horizontal'>
             <Form.Item required label="Timings" name='timings' rules={[{ required: 'true' }]} >
-              <TimePicker.RangePicker />
+              <TimePicker.RangePicker format="HH:mm" />
             </Form.Item>
           </Col>
 
