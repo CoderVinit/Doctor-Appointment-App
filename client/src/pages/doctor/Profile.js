@@ -59,12 +59,12 @@ const Profile = () => {
       })
       if (res.data.success) {
         setDoctor(res.data.data);
+        toast.success(res.data.data)
       }
       else {
         toast.error(res.data.data)
       }
     } catch (error) {
-      console.log(error)
       toast("Something went wrong");
     }
   }

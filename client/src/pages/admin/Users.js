@@ -4,6 +4,7 @@ import axios from 'axios'
 import { Table } from 'antd';
 import { useDispatch } from 'react-redux';
 import { showLoading, hideLoading } from '../../redux/alertsSlice';
+import toast from 'react-hot-toast';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -18,10 +19,13 @@ const Users = () => {
       dispatch(hideLoading)
       if (res.data.success) {
         setUsers(res.data.data);
+        toast.success(res.data.message)
+      }
+      else {
+        toast.error(res.data.message)
       }
     } catch (error) {
       dispatch(hideLoading)
-      console.log(error)
     }
   }
 

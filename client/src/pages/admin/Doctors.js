@@ -18,11 +18,14 @@ const Doctors = () => {
       })
       dispatch(hideLoading)
       if (res.data.success) {
+        toast.success(res.data.message)
         setDoctors(res.data.data);
+      }
+      else {
+        toast.error(res.data.message)
       }
     } catch (error) {
       dispatch(hideLoading)
-      console.log(error)
     }
   }
 

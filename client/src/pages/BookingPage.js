@@ -65,7 +65,6 @@ const BookingPage = () => {
       }
     } catch (error) {
       dispatch(hideLoading())
-      console.log(error)
       toast.error("Something went wrong");
     }
   }
@@ -83,7 +82,6 @@ const BookingPage = () => {
       dispatch(hideLoading())
       if (res.data.success) {
         setIsAvailable(true);
-        console.log(isAvailable)
         toast.success(res.data.message)
       }
       else {
@@ -91,7 +89,6 @@ const BookingPage = () => {
       }
     } catch (error) {
       dispatch(hideLoading())
-      console.log(error)
       toast.error("Something went wrong");
     }
   }
