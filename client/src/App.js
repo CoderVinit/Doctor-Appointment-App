@@ -13,6 +13,8 @@ import Users from "./pages/admin/Users";
 import Doctors from "./pages/admin/Doctors";
 import Profile from "./pages/doctor/Profile";
 import BookingPage from "./pages/BookingPage";
+import Appointments from "./pages/Apointments"
+import DoctorAppointments from "./pages/doctor/DoctorAppointments";
 
 function App() {
   const { loading } = useSelector(state => state.alerts)
@@ -33,6 +35,8 @@ function App() {
         <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
         <Route path="/doctor/profile/:id" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         <Route path="/doctor/book-appointments/:doctorId" element={<ProtectedRoute><BookingPage /></ProtectedRoute>} />
+        <Route path="/appointments" element={<ProtectedRoute><Appointments /></ProtectedRoute>} />
+        <Route path="/doctor/appointments" element={<ProtectedRoute><DoctorAppointments /></ProtectedRoute>} />
       </Routes>
     </Router>
   );

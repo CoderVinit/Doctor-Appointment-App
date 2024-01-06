@@ -5,6 +5,7 @@ import Jwt from 'jsonwebtoken';
 import authMiddleware from '../middleware/authMiddleware.js'
 import Doctor from '../models/doctorModels.js'
 import AppointmentModel from '../models/appointmentModel.js'
+import moment from 'moment/moment.js';
 
 
 const router = express.Router();
@@ -27,7 +28,6 @@ router.post('/register', async (req, res) => {
 
 
   } catch (error) {
-    console.log(error);
     res.status(400).send({ message: "Error while creating user", success: false, error })
   }
 
@@ -48,7 +48,6 @@ router.post('/login', async (req, res) => {
       res.status(200).send({ message: "Login Successfully", success: true, data: token });
     }
   } catch (error) {
-    console.log(error);
     res.status(400).send({ message: "Error while Login user", success: false, error });
   }
 
@@ -94,7 +93,6 @@ router.post('/apply-doctor-account', authMiddleware, async (req, res) => {
     res.status(200).send({ success: true, message: "Doctor Account applied successfully!" });
 
   } catch (error) {
-    console.log(error);
     res.status(400).send({ message: "Error while creating user", success: false, error })
   }
 
@@ -114,7 +112,6 @@ router.post('/mark-all-notifications-as-seen', authMiddleware, async (req, res) 
     res.status(200).send({ message: "All notification marked as seen!", success: true, data: updatedUser });
 
   } catch (error) {
-    console.log(error);
     res.status(400).send({ message: "Error while creating user", success: false, error })
   }
 
@@ -131,7 +128,6 @@ router.post('/delete-all-notifications', authMiddleware, async (req, res) => {
     res.status(200).send({ message: "All notification are deleted!", success: true, data: updatedUser });
 
   } catch (error) {
-    console.log(error);
     res.status(400).send({ message: "Error while creating user", success: false, error })
   }
 
@@ -141,12 +137,13 @@ router.get("/getAllDoctors", authMiddleware, async (req, res) => {
     const doctor = await Doctor.find({ status: "Approved" });
     res.status(200).send({ success: true, message: "doctors lits", data: doctor });
   } catch (error) {
-    console.log(error);
     res.status(400).send({ success: false, message: "Error while fetching the doctors data", error })
   }
 })
 router.post("/book-appointment", authMiddleware, async (req, res) => {
   try {
+    req.body.date = moment(req.body.date, "DD-MM-YYYY").toISOString();
+    req.body.time = moment(req.body.time, "HH:mm").toISOString();
     req.body.status = "Pending"
     const newAppointment = new AppointmentModel(req.body);
     await newAppointment.save();
@@ -154,13 +151,47 @@ router.post("/book-appointment", authMiddleware, async (req, res) => {
     user.unseenNotification.push({
       type: 'New Appointment Request',
       message: `A new appointment from ${req.body.userInfo.name}`,
-      onclickPath: "/user/appointments"
+      onclickPath: "/doctor/appointments"
     })
     await user.save();
     res.status(200).send({ success: true, message: "Appointment Request", data: newAppointment })
   } catch (error) {
-    console.log(error)
     res.status(400).send({ success: true, message: "error while book appointment", error })
+  }
+})
+// booking availability
+
+router.post("/booking-availability", authMiddleware, async (req, res) => {
+  try {
+    const date = moment(req.body.date, "DD-MM-YYYY").toISOString();
+    const fromTime = moment(req.body.time, "HH:mm").subtract(1, "hours").toISOString();
+    const toTime = moment(req.body.time, "HH:mm").add(1, "hours").toISOString();
+    const doctorId = req.body.doctorId;
+    const appointment = await AppointmentModel.findOneAndDelete({
+      doctorId, date,
+      time: {
+        $gte: fromTime, $lte: toTime
+      }
+    })
+    if (appointment?.length > 0) {
+      return res.status(200).send({ success: true, message: "Appointments not available at this time" });
+    }
+    else {
+      return res.status(200).send({ success: true, message: "Appointment Available" });
+    }
+  } catch (error) {
+    return res.status(400).json({ success: false, message: "Error while checking availability", error })
+  }
+})
+
+// get user Appointments
+
+router.get("/user-appointments", authMiddleware, async (req, res) => {
+  try {
+    const appointments = await AppointmentModel.find({ userId: req.body.userId });
+    res.status(200).send({ success: true, message: "User Appointments fetch Successfully", data: appointments });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'error while fetching the user appointment list', error })
   }
 })
 

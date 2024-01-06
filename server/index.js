@@ -4,7 +4,7 @@ import Connection from "./dbConfig.js";
 import userRoute from './Routes/userRoutes.js'
 import cors from 'cors'
 import bodyParser from 'body-parser';
-import adminRoute from './Routes/adminRoutes.js'
+import adminRoute from './Routes/adminRoutes.js' 
 import doctorRoute from './Routes/doctorRoutes.js'
 
 

@@ -12,7 +12,6 @@ router.get("/getAllUsers", authMiddleware, async (req, res) => {
     const users = await User.find({});
     res.status(200).send({ success: true, message: "Users data", data: users });
   } catch (error) {
-    console.log(error)
     res.status(400).send({ success: false, message: "error while getting users data", error })
   }
 })
@@ -21,7 +20,6 @@ router.get("/getAllDoctors", authMiddleware, async (req, res) => {
     const doctors = await doctorModel.find({});
     res.status(200).send({ success: true, message: "Doctors data", data: doctors });
   } catch (error) {
-    console.log(error)
     res.status(400).send({ success: false, message: "error while getting doctors data", error })
   }
 })
@@ -40,7 +38,6 @@ router.post("/changeAccountStatus", authMiddleware, async (req, res) => {
     await user.save();
     res.status(200).send({ success: true, message: "Your doctor account approval is accepted", data: doctor })
   } catch (error) {
-    console.log(error)
     res.status(400).send({ success: false, message: "Error while updating the Status of Doctor", error })
   }
 })
