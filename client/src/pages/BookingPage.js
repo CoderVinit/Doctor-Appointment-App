@@ -7,6 +7,7 @@ import { DatePicker, TimePicker } from 'antd';
 import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
 import { showLoading, hideLoading } from '../redux/alertsSlice'
+import { server } from '../constant/config';
 
 const BookingPage = () => {
   const { user } = useSelector(state => state.user)
@@ -21,7 +22,7 @@ const BookingPage = () => {
   const getData = async () => {
     try {
       dispatch(showLoading())
-      const response = await axios.post("http://localhost:8000/api/doctor/getDoctorById", { doctorId: params.doctorId }, {
+      const response = await axios.post(`${server}/api/doctor/getDoctorById`, { doctorId: params.doctorId }, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem('token')
         }
@@ -49,7 +50,7 @@ const BookingPage = () => {
         return alert("Date and time required")
       }
       dispatch(showLoading())
-      const res = await axios.post("http://localhost:8000/api/user/book-appointment",
+      const res = await axios.post(`${server}/api/user/book-appointment`,
         { doctorId: params.doctorId, userId: user._id, doctorInfo: doctor, userInfo: user, date: date, time: time },
         {
           headers: {
@@ -72,7 +73,7 @@ const BookingPage = () => {
   const handleAvailability = async () => {
     try {
       dispatch(showLoading())
-      const res = await axios.post("http://localhost:8000/api/user/booking-availability",
+      const res = await axios.post(`${server}/api/user/booking-availability`,
         { date, time, doctorId: params.doctorId },
         {
           headers: {

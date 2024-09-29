@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import moment from 'moment'
 import { Table } from 'antd';
+import { server } from '../constant/config';
 
 const Apointments = () => {
   const [appointments, setAppointments] = useState([]);
@@ -12,7 +13,7 @@ const Apointments = () => {
 
   const getAppointments = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/user/user-appointments",
+      const res = await axios.get(`${server}/api/user/user-appointments`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem('token')

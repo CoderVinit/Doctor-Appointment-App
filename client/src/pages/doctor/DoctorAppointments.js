@@ -6,6 +6,7 @@ import { hideLoading, showLoading } from '../../redux/alertsSlice'
 import toast from 'react-hot-toast'
 import { Button, Table } from 'antd'
 import moment from 'moment'
+import { server } from '../../constant/config'
 
 const DoctorAppointments = () => {
   const [appointments, setAppointments] = useState([]);
@@ -14,7 +15,7 @@ const DoctorAppointments = () => {
   const getDoctorAppointments = async () => {
     try {
       dispatch(showLoading())
-      const res = await axios.get("http://localhost:8000/api/doctor/doctor-appointments",
+      const res = await axios.get(`${server}/api/doctor/doctor-appointments`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem('token')
@@ -43,7 +44,7 @@ const DoctorAppointments = () => {
   const handleStatus = async (record, status) => {
     try {
       dispatch(showLoading())
-      const res = await axios.post("http://localhost:8000/api/doctor/update-status", { appointmentId: record._id, status },
+      const res = await axios.post(`${server}/api/doctor/update-status`, { appointmentId: record._id, status },
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem('token')

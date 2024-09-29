@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { hideLoading, showLoading } from '../../redux/alertsSlice'
 import moment from 'moment'
+import { server } from '../../constant/config'
 
 const Profile = () => {
 
@@ -24,7 +25,7 @@ const Profile = () => {
   const onFinish = async (values) => {
     try {
       dispatch(showLoading());
-      const response = await axios.post("http://localhost:8000/api/doctor/updateProfile", {
+      const response = await axios.post(`${server}/api/doctor/updateProfile`, {
         ...values, userId: user.id,
         timings: [
           moment(values.timings[0]).format('HH:mm'),
@@ -54,7 +55,7 @@ const Profile = () => {
 
   const getDoctorInfo = async () => {
     try {
-      const res = await axios.post("http://localhost:8000/api/doctor/getDoctorInfo", { userId: params.id }, {
+      const res = await axios.post(`${server}/api/doctor/getDoctorInfo`, { userId: params.id }, {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") }
       })
       if (res.data.success) {

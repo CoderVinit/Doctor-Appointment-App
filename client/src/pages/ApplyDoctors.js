@@ -16,7 +16,7 @@ const ApplyDoctors = () => {
   const onFinish = async (values) => {
     try {
       dispatch(showLoading());
-      const response = await axios.post("http://localhost:8000/api/user/apply-doctor-account", {
+      const response = await axios.post(`${server}/api/user/apply-doctor-account`, {
         ...values, userId: user._id
       },
         {

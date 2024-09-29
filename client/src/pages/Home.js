@@ -10,7 +10,7 @@ const Home = () => {
   const [doctors, setDoctors] = useState([]);
   const getData = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/user/getAllDoctors", {
+      const response = await axios.get(`${server}/api/user/getAllDoctors`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem('token')
         }
