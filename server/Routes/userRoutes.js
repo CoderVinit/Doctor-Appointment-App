@@ -11,7 +11,6 @@ import moment from 'moment/moment.js';
 const router = express.Router();
 
 router.post('/register', async (req, res) => {
-
   try {
     const userExist = await User.findOne({ email: req.body.email });
     if (userExist) {
@@ -30,7 +29,6 @@ router.post('/register', async (req, res) => {
   } catch (error) {
     res.status(400).send({ message: "Error while creating user", success: false, error })
   }
-
 })
 router.post('/login', async (req, res) => {
 

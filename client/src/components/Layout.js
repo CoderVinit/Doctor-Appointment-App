@@ -75,11 +75,15 @@ const Layout = ({ children }) => {
           </div>
           <div className="menu">
             {menuToBeRendered.map((menu) => {
-              const isActive = location.pathname === menu.path
-              return <div className={`d-flex menu-item ${isActive && 'active-menu-item'}`}>
-                <i className={menu.icon}></i>
-                {!collapsed && <Link to={menu.path}>{menu.name}</Link>}
-              </div>
+              const isActive = location.pathname === menu.path;
+              return (
+                <>
+                  <div className={`d-flex menu-item ${isActive && 'active-menu-item'}`}>
+                    <i className={menu.icon}></i>
+                    {!collapsed && <Link to={menu.path}>{menu.name}</Link>}
+                  </div>
+                </>
+              );
             })}
             <div className={`d-flex menu-item `} onClick={() => {
               localStorage.clear();
@@ -92,8 +96,8 @@ const Layout = ({ children }) => {
         </div>
         <div className="content">
           <div className="header">
-            {collapsed ? (<i i className="ri-menu-2-line header-action-icon" onClick={() => setCollapsed(false)}></i>) :
-              (<i className="ri-close-line header-action-icon" onClick={() => setCollapsed(true)}></i>)}
+            {!collapsed ? (<i className="ri-menu-2-line header-action-icon" onClick={() => setCollapsed(true)}></i>) :
+              (<i className="ri-close-line header-action-icon" onClick={() => setCollapsed(false)}></i>)}
 
             <div className="d-flex align-items-center px-4">
               <Badge count={user?.unseenNotification.length} onClick={() => navigate('/notifications')}>

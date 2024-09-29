@@ -38,7 +38,7 @@ const DoctorAppointments = () => {
 
   useEffect(() => {
     getDoctorAppointments()
-  }, []);
+  }, [appointments]);
 
   const handleStatus = async (record, status) => {
     try {

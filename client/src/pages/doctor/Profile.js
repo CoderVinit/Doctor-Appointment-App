@@ -27,9 +27,9 @@ const Profile = () => {
       const response = await axios.post("http://localhost:8000/api/doctor/updateProfile", {
         ...values, userId: user.id,
         timings: [
-          moment(values.timings[0]).format('HH:MM'),
-          moment(values.timings[1]).format('HH:MM')
-        ]
+          moment(values.timings[0]).format('HH:mm'),
+          moment(values.timings[1]).format('HH:mm')
+        ],
       }, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem('token')
@@ -59,7 +59,7 @@ const Profile = () => {
       })
       if (res.data.success) {
         setDoctor(res.data.data);
-        toast.success(res.data.data)
+        toast.success(res.data.message)
       }
       else {
         toast.error(res.data.data)
@@ -72,21 +72,22 @@ const Profile = () => {
 
   useEffect(() => {
     getDoctorInfo();
+    //eslint-disable-next-line
   }, [])
 
 
   return (
     <Layout>
-      <h1 className='page-title'>Apply Doctor Account</h1>
+      <h1 className='page-title'>Manage Profile</h1>
       <hr />
       {doctor && (
 
 
         <Form layout='vertical' onFinish={onFinish} initialValues={{
           ...doctor, timings: [
-            moment(doctor.timings[0], 'HH:mm'),
-            moment(doctor.timings[1], 'HH:mm')
-          ]
+            moment(doctor.timings[0], "HH:mm"),
+            moment(doctor.timings[1], "HH:mm")
+          ],
         }}>
           <Row gutter={20}>
 
@@ -149,7 +150,7 @@ const Profile = () => {
           </Row>
 
           <div className="d-flex justify-content-end">
-            <Button className='primary-button' htmlType='submit'>SUBMIT</Button>
+            <Button className='primary-button' htmlType='submit'>Update</Button>
           </div>
         </Form>
       )}
