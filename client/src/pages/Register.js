@@ -6,6 +6,7 @@ import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { hideLoading, showLoading } from '../redux/alertsSlice'
+import { server } from '../constant/config'
 
 const Register = () => {
   const dispatch = useDispatch();

@@ -4,6 +4,7 @@ import Layout from "../components/Layout.js"
 import toast from 'react-hot-toast'
 import { Row } from 'antd'
 import DoctorList from '../components/DoctorList.js'
+import { server } from '../constant/config.js'
 // import { showLoading, hideLoading } from '../redux/alertsSlice.js'
 
 const Home = () => {

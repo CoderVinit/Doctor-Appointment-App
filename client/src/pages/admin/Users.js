@@ -5,6 +5,7 @@ import { Table } from 'antd';
 import { useDispatch } from 'react-redux';
 import { showLoading, hideLoading } from '../../redux/alertsSlice';
 import toast from 'react-hot-toast';
+import { server } from '../../constant/config';
 
 const Users = () => {
   const [users, setUsers] = useState([]);

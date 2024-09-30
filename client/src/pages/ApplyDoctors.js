@@ -6,6 +6,7 @@ import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { hideLoading, showLoading } from '../redux/alertsSlice'
 import axios from 'axios'
+import { server } from '../constant/config'
 
 const ApplyDoctors = () => {
 
