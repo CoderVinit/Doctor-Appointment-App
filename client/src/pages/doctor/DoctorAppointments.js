@@ -14,14 +14,12 @@ const DoctorAppointments = () => {
 
   const getDoctorAppointments = async () => {
     try {
-      dispatch(showLoading())
       const res = await axios.get(`${server}/api/doctor/doctor-appointments`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem('token')
           }
         });
-      dispatch(hideLoading())
       if (res.data.success) {
         toast.success(res.data.message)
         setAppointments(res.data.data)
@@ -30,7 +28,6 @@ const DoctorAppointments = () => {
         toast.error(res.data.message);
       }
     } catch (error) {
-      dispatch(hideLoading())
       toast.error("Something went Wrong!")
     }
   }

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import Layout from '../components/Layout'
 import axios from 'axios'
 import toast from 'react-hot-toast';
-import { useSelector } from 'react-redux';
 import moment from 'moment'
 import { Table } from 'antd';
 import { server } from '../constant/config';
