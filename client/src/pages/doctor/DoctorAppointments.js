@@ -35,7 +35,9 @@ const DoctorAppointments = () => {
 
 
   useEffect(() => {
-    getDoctorAppointments()
+    setTimeout(() => {
+      getDoctorAppointments()
+    }, 1000);
   }, [appointments]);
 
   const handleStatus = async (record, status) => {
